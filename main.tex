@@ -21,6 +21,8 @@ citestyle=authortitle
   {[\printfield{labelnumber}]}
   {}
   {}
+\newcommand{\newcite}[1] {\section{\cite{#1} \citenum{#1}}}
+\setlength\parindent{0pt}
 
 \title{Academical Literature -- Overview and Excerpts}
 \author{Jacob Seifert}
@@ -284,7 +286,78 @@ Furthermore, instead of averaging multiple exposures to increase the SNA of the 
 
 \section{\cite{Loetgering2017-re} \citenum{Loetgering2017-re}}
 
-This is a more comprehensive work based on the previous paper by Lars Lötgering \cite{Loetgering_undated-wt}. In chapter 2.5, an \textbf{assessment for the resolution in ptychography} is established using the area under curve of a Fourier ring correlation.
+This is a more comprehensive work based on the previous paper by Lars Lötgering \citenum{Loetgering_undated-wt}. In chapter 2.5, an \textbf{assessment for the resolution in ptychography} is established using the area under curve of a Fourier ring correlation.
+
+\newcite{Parrent1966-au}
+ 
+The basic entity in the theory of partial coherence is the mutual coherence function $\Gamma_{12}(\tau)$:
+
+\begin{equation}
+      \Gamma_{12}(\tau) = (x_1, x_2, \tau) = \langle V(x_1,t) V^*(x_2, t+\tau)\rangle.
+\end{equation}
+
+Here, $x$ denotes the position vector and the sharp brackets indicate a long time average. The complex degree of coherence is here defined as the normalized coherence function. The tratment of problems involving partially coherent light involves the solution of two wave equations with $\Gamma_{12}(\tau)$.
+
+If the path distances $c\cdot \tau$ are suitably small, we can rewrite the mutual coherence function as the \textbf{mutual intensity function}
+\begin{equation}
+    \Gamma(x_1,x_2) = \Gamma_{12} = \Gamma(x_1,x_2,0)
+\end{equation}
+which reduces the wave equations to two Helmholtz equations
+\begin{equation}
+    \nabla_s \Gamma_{12}+k^2\Gamma_{12} = 0 \,\,\,\, (s = 1,2).
+\end{equation}
+
+Now, two principal theorems emerge:
+
+\begin{enumerate}
+    \item A field is coherent if and only if the mutual intensity function describing it can be factored in the form
+    \begin{equation}
+        \Gamma_{12} = U(x_1)U^*(x_2)
+    \end{equation}
+    where 
+    \begin{equation}
+        \nabla_s U(x_1)+k^2U(x_1) = 0.
+    \end{equation}
+    \item An incoherenct field cannot exist in free space; however, an incoherent source consistent with this result may be defined.    
+\end{enumerate}
+
+\newcite{Thibault2013-kg}
+
+The authors present that the problem of partially coherent illumination (either caused by the source or other decoherent systems like vibrating or mixed samples) in ptychography can be overcome by the assumption of wide-sense stationary statistics that can be described by low-rank density matrices. As a results, it is possible to reconstruct modes in the illumination or, shown in simulations, quantum system states in an Ising model.
+
+
+\newcite{Guizar-Sicairos2012-rq}
+The spacial-frequency spectrum is important for the quality of ptychographical reconstructions.
+
+
+\newcite{MacKay2004-to}
+\subsection{Chapter V: Neural Networks}
+
+
+\newcite{Kamilov2015-lp}
+\subsection*{Reading goal}
+Demetri Psalti's and Ulugbek Kamilov's paper describe a similar approach to my current reseach question. This makes it detremental to understand their work and probably cite them in the future.
+\subsection*{Content}
+The authors demonstrate a neural-network-based algorithm for solving the phase retrieval problem in tomography. Off-axis holography under 80 illumination angles is applied. The object is separated in 420 slices which are represented as forward beam propagation layers in a neural network. The error between the predicted hologram and its measurement is then used in conjunction with a conventional backpropagation technique to optimize for the object (in a basis of pixels).
+The only sparsity constraint seems to be that the index perturbation is real and positive (no further prior knowledge due to the pixel basis). The results are compared to conventional tomography techniques that fail mainly due to their dependence on the Born approximation (single scattering). The learning-based method converges to the same results no matter how the object was initialized (constant or with three different conventional tomography results).
+
+\newcite{Goldsborough2016-fz}
+\subsection*{Reading Goal}
+Get a better technical understanding of the toolkit TensoFlow, the computational paradigms behind tensors, the logic of stateful dataflow graphs etc.\\
+Along the way, I want to look for new ideas regarding our PtychoKeras project.
+\subsection*{Content}
+ML algorithms is TensorFlow are represented as computational graphs (or dataflow graphs). They are comprised of \textit{nodes} (describing operations) and \textit{edges} (representing data that flows between these operations).
+``Any operation must be backed by an associated implementation which is referred to as the operation's \textit{kernel}''.
+The edges that represent data flowing are referred to as \textit{tensors}. Tensors themselves do not store values in memory.\\
+In graph computing, \textit{Common Subgraph Elimination} is employed to accelerate operations that would be executed multiple times (by truncating redundancies in the graph). The ability of defining while-loops is discussed briefly in a paragraph about \textit{Control Flow}.
+
+
+\newcite{Waller2015-ec}
+\subsection*{Reading Goal}
+Get an overview of comparable work to my PhD project.
+
+\subsection*{Content}
+This article is a review of \cite{Kamilov2015-lp} which is described earlier. Furthermore, the future and problem of provability in computational imaging (based on ANNs) are discussed.
 
 \printbibliography
 \end{document}
