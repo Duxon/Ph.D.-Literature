@@ -12,6 +12,7 @@ citestyle=authortitle
 \usepackage{bm}
 \usepackage{siunitx}
 \usepackage{hyperref}
+\usepackage{amsthm}
 \usepackage[a4paper,left=3cm,right=3cm,top=2.5cm,bottom=2.5cm]{geometry}
 \usepackage{graphicx}
 \graphicspath{ {./figures/} }
@@ -358,6 +359,132 @@ Get an overview of comparable work to my PhD project.
 
 \subsection*{Content}
 This article is a review of \cite{Kamilov2015-lp} which is described earlier. Furthermore, the future and problem of provability in computational imaging (based on ANNs) are discussed.
+
+\newcite{Duarte2019-ve}
+\subsection*{Reading Goal}
+We want to know about the stereoscopic lensless 3D imaging and evaluate whether or not we would like to replicate the setup in the optical regime.
+\subsection*{Content}
+The experimental setup is shown in\textbf{ Fig.\,1}. 
+
+\begin{center}
+    \includegraphics[width=0.6\textwidth]{figures/stereoscope.png}
+\end{center}
+\sisetup{range-phrase=--}
+Two coherent diffraction patterns are recorded on a single CCD and ptychographically analyzed. The spacial resolutions of the reconstructions are estimated using a so-called \SIrange{10}{90}{\percent} criterion (\SI{127}{\nano\meter}).\\
+Then, the depth information is recovered using a disparity map. The depth voxel size decreases for large angles. However, the angle is limited by the sample sample structure and method which requires that identical features must be present in both views.
+
+\newcite{Song2019-fh}
+\subsection*{Reading Goal}
+Ptychography with a diffuser is something I had briefly tested in the lab. It is therefore of interest so see how the authors used diffusers to achieve super-resolution. Furthermore, since I want to work work towards my first publication in the next months, it is interesting to read a new example in this field.
+
+\subsection*{Content}
+A coherent imaging technique, termed ptychographic structured modulation (PSM) is presented which adds a scattering lens to the detection path. The setup is shown in the figure below: 
+
+\begin{center}
+    \includegraphics[width=0.7\textwidth]{figures/PSM.png}
+\end{center}
+The diffuser allows the collection of high-spacial information that is otherwise lost. The final achieable resolution is limited by the smallest feature size of the diffuser. The authors have used a cover slip coated with microspheres of a size of \SI{1}{\micro\metre}. Thus, as suggested by the authors, it might be relevant to replicate PSM with titanium oxide (and PtychoKeras?).
+A 4.5-fold gain in resolution compared to the diffraction limitation is reported.\\
+At the object plane, the ptychographical iteration engine in the scheme of PSM is not dependend on the incoming light field but the outgoing field. This enables 3D imaging by digital propagation into the object.
+
+\newcite{Li2018-lc}
+\subsubsection*{Reading Goal}
+
+Dorian suggested this paper in a journal club.
+It is related to PtychoKeras. Will it be part of our bibliography?
+
+\subsection*{Content}
+Eventually, this paper didn't turn out to be so interesting for our research. The authors were able to train an auto-correlation-like CNN for predicting input wavefronts (28x28 pixels) from speckle patterns. 
+
+\newcite{Kellman2018-uj}
+\subsection*{Reading Goal}
+
+Wouter Koek from TNO suggested to read this paper paper after listening to my talk about PtychoKeras at the consortium meeting in June 2019.
+
+\section*{Content}
+The authors propose the approach of an \textit{unrolled network}; each layer consists of well-specified operations to incorporate measurement formation and sparse regularization, instead of standard operations such a generic convolutions.\\
+A LED-array microscope is operated with \textit{learned} coded-illumination designs for quantitative phase imaging (very similar or equivalent to Fourier Ptychography). The authors derive the gradient update for every iteration analytically, not using auto-differentiation included in learning libraries (e.g.\, PyTorch or TensorFlow). The trained coded-illumination designs are shown in \textbf{Fig.\,3}.
+
+\begin{center}
+    \includegraphics[width=0.65\textwidth]{figures/codedillumination.png}
+\end{center}
+
+The designs were sparsely parameterized and trained using simulated data. Later, it was shown that the learned experimental designs provide superior results on biological specimen and a USAF target in comparison to traditional qDPC.\\
+A similar approach is presented in \cite{Horstmeyer2017-hy} (2017), where the authors parameterize the LED weights (between 0 and 1) of the LED illumination scheme in Fourier ptychography. They were able to improve the classification of Malaria-infected reed blood cells by approximately \SI{10}{\percent}.
+
+
+\newcite{Sinha2017-op}
+\subsection*{Reading Goal}
+I want to cite this paper in my abstract for a talk at the conference \textit{Face2Phase} in Delft, 2019.
+
+\subsection*{Content}
+In the introduction, this research article gives a very neat overview of the nature of the inverse problem in phase retrieval. Let the image $I(x,y)=| \Psi (x, y, z)|^2 = H\phi(x,y)$ represent the intensity image at distance $z$ from the object $\phi (x,y)$, where $H$ is the forward operator. We can then formulate the phase retrieval as the inverse problem
+\begin{equation}
+    \hat{\phi} (x,y) = H^\mathrm{inv} I(x,y),
+\end{equation}
+where $H^\mathrm{inv}$ defines the inverse transform and is generally non-linear, and $ \hat{\phi}$ is the inverse estimated from a single raw intensity image. The proposed approach in this paper is solving an optimization problem of the form
+\begin{equation}
+     \hat{\phi} (x,y) = \mathrm{argmin}_\phi ||H\phi - I ||^2 + \alpha \Phi(\phi),
+\end{equation}
+with a regularization function $\Phi(\phi)$ and parameter $\alpha$.
+
+\newcite{Yilmaz2015-al}
+In the two chapters, Hasan's thesis provides a very basic overview of resolution and coherence in imaging systems.
+\subsection{Degree of coherence}
+The degree of coherence is given as \cite{Zernike1938-rw}
+\begin{equation}
+    \gamma_{12} = \frac{|\int E_1(t)\cdot E_2^*(t-\tau)\mathrm{d}t|}{\sqrt{\int |E_1(t)|^2\mathrm{d}t\cdot |E_2(t)|^2\mathrm{d}t}}.
+\end{equation}
+
+\newcite{Kandel2019-pr}
+The phase retrieval problem is generally ill-posed (underdetermined and nonunique), thus requiring oversampling and support constraints. The authors note that a gradient-based approach for phase retrieval is flexible and can include a large variety of physical phenomena in the forward model (e.\,g. partial coherence, position errors, finite pixel size or measurement noise). That might be something we could consider for our PtychoKeras implementation.
+
+Later, the authors bring forward arguments against gradient-based phase retrieval approaches:
+\begin{itemize}
+    \item It requires the explizit closed-form expression for the gradient calculation (symbolic differentiation) wich is laborious.
+    \item A slight change of the forward model requires a complete rederivation of the gradient expressions.
+\end{itemize}
+
+Page 2 might be especially useful as a knowledge foundation for a talk or discussion about our ML implementation of the inverse problem in ptychography.
+
+\newtheorem{mydef}{Definition}
+\begin{mydef}
+\textbf{Cheap gradient principle}: The time required to calculate the (automatic) gradient of a function $f$ is always within an order of magnitude of the time required to calculate the function value itself.
+\end{mydef}
+The main new point in this work is another new argument why AD is useful for the phase retrieval community: The AD framework is flexible and, thus, allows us to easily modify the forward model (without finding new closed-form gradient functions) which empowers us to address the full range of situations and problems that arise in experimental phase retrieval. (The authors also briefly mention that the update step sizes in ePIE correspond to the inverse of the \textit{Lipschitz constant} which, again, needs to be derived from the closed-form expression. However, I am currently not convinced about that which might be a lack of understanding.)
+
+In the far-field transmission ptychography forward-model, the authors include an \textbf{additive Gaussian noise term}. 
+
+
+\newcite{Nashed2017-pd}
+This paper is previous work from the group that wrote the general framework for ptychographic reconstructions in 2019 (Kandel et al.). 
+\begin{mydef}
+\textbf{Hadamard product}: Elementwise product that takes two input matrices and produces a resulting matrix of the same size (as it is commonly used in the object plane of ptychography with complex numbers).
+\end{mydef}
+The authors claim that automatic differentiation (AD) solves problems associated with symbolic differentiation such as computational inefficiency and errors introduduced by domain discretization. The backpropagation in deep lerning is a special case of reverse-mode AD. The authors build both a synchronous and asynchronous (which scales better since it doesn't need to communicate the local gradient information globally) version of their distributed algorithm. The asynchronous algorithm needs postprocessing in the form of coherent image stitching methods since every sub-result exhibits phase shifts and spatial offsets.
+
+In Figure/,3, the performance evaluation of a simulated dataset is shown. Is becomes clear that the synchronous implementation computes slower but produces better results after only few iterations. Furthermore, the authors compare it against a multi-GPU-enabled ePIE. AD using Adam in TensorFlow is about as fast measured in total running time as ePIE. 
+
+\begin{center}
+    \includegraphics[width=0.95\textwidth]{figures/nashed_performance.png}
+\end{center}
+
+
+\newcite{Ghosh2018-jf}
+Again a paper based on the 2017 work by Youssef Nashed. Here, a fly-scan mode in investigated with ADP. Furthermore, the probe was not recovered in the 2017 paper – here it is.
+The authors note that \textbf{ADP is not a machine learning algorithm for two reasons}:
+\begin{enumerate}
+    \item It does not need training data.
+    \item The learned variables do not generalize to other datasets; they define a best-fit forward model to the measured data.
+\end{enumerate}
+
+The key performance comparison results are shown in the following figures:
+
+\begin{center}
+    \includegraphics[width=1\textwidth]{figures/nashed_perfResults.png}
+\end{center}
+
+
 
 \printbibliography
 \end{document}
